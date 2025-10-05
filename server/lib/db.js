@@ -1,10 +1,8 @@
 import mongoose from 'mongoose';
 
 export const connectDb = async () => {
-  try {
-    mongoose.connection.on('connected', () => console.log('Connected'));
-    await mongoose.connect(`${process.env.MONGODB_URL}/quick-show`);
-  } catch (error) {
-    console.log(error);
-  }
+  const uri = process.env.MONGODB_URL;
+  mongoose.set('bufferCommands', false);
+  await mongoose.connect(uri, { dbName: 'quick-show' });
+  console.log('Connected to DB:', mongoose.connection.name);
 };
